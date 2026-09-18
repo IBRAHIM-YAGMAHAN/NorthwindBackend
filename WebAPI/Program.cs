@@ -1,6 +1,12 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependenciesResolvers.Autofac;
+using core.Utilities.Security.Encyption;
+using core.Utilities.Security.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+// Not: Projendeki ilgili namespace'leri (using Core.Utilities.Security.JWT; vb.) eklemeyi unutma.
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +19,33 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builderOptions =>
     builderOptions.RegisterModule(new AutofacBusinessModule());
 });
 
-// Add services to the container.
+// CORS Politikası Kaydı
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowOrigin",
+        policyBuilder => policyBuilder.WithOrigins("http://localhost:3000").AllowAnyHeader());
+});
 
+// JWT Authentication Kaydı
+var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = tokenOptions.Issuer,
+            ValidAudience = tokenOptions.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+        };
+    });
+
+// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -24,11 +53,19 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.MapOpenApi();
 }
 
+// Cors politikası her zaman Routing ve Auth işlemlerinden önce gelmelidir.
+app.UseCors("AllowOrigin");
+
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+// Authentication (Kimlik Doğrulama) mutlaka Authorization'dan (Yetkilendirme) önce yazılmalıdır.
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

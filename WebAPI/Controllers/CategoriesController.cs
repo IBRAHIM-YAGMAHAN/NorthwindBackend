@@ -1,17 +1,16 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesControllers : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private ICategoryService _categoryService;
 
-        public CategoriesControllers(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -20,10 +19,10 @@ namespace WebAPI.Controllers
         public IActionResult GetList()
         {
             var result = _categoryService.GetList();
-            
+
             if (result.success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
             return BadRequest(result.Message);
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Business.Contants
+namespace Business.Constants
 {
     public static class Messages
     {
@@ -13,5 +13,13 @@ namespace Business.Contants
         public static string CategoryAdded = "Category added successfully.";
         public static string CategoryDeleted = "Category deleted successfully.";
         public static string CategoryUpdated = "Category updated successfully.";
+        public static string UserNotFound = "";
+        public static string PasswordError = "Password";
+        public static string SuccessfulLogin;
+
+        public static string UserAlreadyExists;
+        public static string UserRegistered;
+        public static string AccessTokenCreated;
     }
+
 }
