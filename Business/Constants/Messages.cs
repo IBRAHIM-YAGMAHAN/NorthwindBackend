@@ -13,13 +13,12 @@ namespace Business.Constants
         public static string CategoryAdded = "Category added successfully.";
         public static string CategoryDeleted = "Category deleted successfully.";
         public static string CategoryUpdated = "Category updated successfully.";
-        public static string UserNotFound = "";
+        public static string UserNotFound = "No user found with this email.";
         public static string PasswordError = "Password";
-        public static string SuccessfulLogin;
-
-        public static string UserAlreadyExists;
-        public static string UserRegistered;
-        public static string AccessTokenCreated;
+        public static string SuccessfulLogin = "Login successful.";
+        public static string UserAlreadyExists = "This email is already registered.";
+        public static string UserRegistered = "User registered successfully.";
+        public static string AccessTokenCreated = "Access token created.";
     }
 
 }
