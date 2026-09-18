@@ -14,7 +14,7 @@ namespace Business.Constants
         public static string CategoryDeleted = "Category deleted successfully.";
         public static string CategoryUpdated = "Category updated successfully.";
         public static string UserNotFound = "No user found with this email.";
-        public static string PasswordError = "Password";
+        public static string PasswordError = "Password is incorrect";
         public static string SuccessfulLogin = "Login successful.";
         public static string UserAlreadyExists = "This email is already registered.";
         public static string UserRegistered = "User registered successfully.";
