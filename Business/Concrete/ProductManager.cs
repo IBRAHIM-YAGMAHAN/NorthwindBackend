@@ -4,6 +4,7 @@ using Business.ValidationRules;
 using core.Aspects.Autofac.Transaction;
 using core.Aspects.Autofac.Validation;
 using core.Aspects.Caching;
+using core.CrossCuttingConcerns.Cashing;
 using core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -23,6 +24,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator), Priority =1)]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             // Business code can be added here, such as validation or other logic before adding the product
