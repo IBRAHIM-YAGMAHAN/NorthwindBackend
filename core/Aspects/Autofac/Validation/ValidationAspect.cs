@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace core.Aspects.Autofac.Validation
 {
@@ -19,8 +20,9 @@ namespace core.Aspects.Autofac.Validation
             {
                 throw new Exception(AspectMessages.WrongValidationType);
             }
+            _validatorType = validatorType;
         }
-        _validatorType = ValidationType;
+        
         protected override void OnBefore(IInvocation invocation)
         {
             var validator = (IValidator)Activator.CreateInstance(_validatorType);
