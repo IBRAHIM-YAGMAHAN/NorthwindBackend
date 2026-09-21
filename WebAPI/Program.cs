@@ -1,10 +1,16 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependenciesResolvers.Autofac;
+using core.DependencyResolvers;
+using core.Utilities.IoC;
 using core.Utilities.Security.Encyption;
 using core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+
+using core.DependencyResolvers;
+using core.Extensions;
+using core.Utilities.IoC;
 
 // Not: Projendeki ilgili namespace'leri (using Core.Utilities.Security.JWT; vb.) eklemeyi unutma.
 
@@ -42,6 +48,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
+    });
+
+builder.Services.AddDependencyResolvers(new ICoreModule[]
+    {
+        new CoreModule()
     });
 
 // Add services to the container.
