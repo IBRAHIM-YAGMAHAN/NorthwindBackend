@@ -1,5 +1,4 @@
-﻿using Castle.Core.Interceptor;
-using core.CrossCuttingConcerns.Validation;
+﻿using core.CrossCuttingConcerns.Validation;
 using core.Utilities.Interceptors;
 using core.Utilities.Messages;
 using FluentValidation;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Linq;
+using Castle.DynamicProxy;
 
 namespace core.Aspects.Autofac.Validation
 {

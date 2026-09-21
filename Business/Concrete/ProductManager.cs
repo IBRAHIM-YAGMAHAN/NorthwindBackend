@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -19,7 +20,7 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
-        [ValidationAsspect(typeof(ProductValidator))]
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             // Business code can be added here, such as validation or other logic before adding the product
@@ -33,6 +34,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductDeleted);
         }   
         
+
 
         public IDataResult<Product> GetById(int productId)
         {
