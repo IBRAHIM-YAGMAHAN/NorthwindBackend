@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules;
+using core.Aspects.Autofac.Transaction;
+using core.Aspects.Autofac.Validation;
 using core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -8,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -20,7 +21,7 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
-        [ValidationAspect(typeof(ProductValidator))]
+        [ValidationAspect(typeof(ProductValidator), Priority =1)]
         public IResult Add(Product product)
         {
             // Business code can be added here, such as validation or other logic before adding the product
@@ -55,6 +56,15 @@ namespace Business.Concrete
         {
            _productDal.Update(product);
            return new SuccessResult(Messages.ProductUpdated );  
+        }
+
+
+        [TransactionScopeAspect]
+        public IResult TransactionalOperation(Product product)
+        {
+            _productDal.Update(product);
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductUpdated);
         }
     }
 }

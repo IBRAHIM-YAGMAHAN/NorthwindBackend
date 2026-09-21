@@ -83,5 +83,17 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpPost("tansaction")]
+        public IActionResult TransactionTest(Product product)
+        {
+            var result = _productService.TransactionalOperation(product);
+            if (result.success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+
     }
 }
