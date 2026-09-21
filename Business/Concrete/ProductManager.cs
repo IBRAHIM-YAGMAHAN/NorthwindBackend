@@ -1,10 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules;
 using core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Business.Concrete
@@ -17,6 +19,7 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        [ValidationAsspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             // Business code can be added here, such as validation or other logic before adding the product
