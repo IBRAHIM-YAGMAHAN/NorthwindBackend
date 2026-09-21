@@ -83,7 +83,7 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("tansaction")]
+        [HttpPost("transaction")]
         public IActionResult TransactionTest(Product product)
         {
             var result = _productService.TransactionalOperation(product);
